@@ -24,6 +24,9 @@ bool running = true;
 SDL_Rect PlayerPaddle;
 SDL_Rect AIPaddle;
 SDL_Rect Ball;
+/*
+*BRIGITTE'S CHANGES* Added line object. 
+*/
 SDL_Rect Middle;
 
 /*
@@ -67,6 +70,14 @@ void LoadGame()
 	Ball.y = 290;
 	Ball.w = 20;
 	Ball.h = 20;
+
+	/* 
+	*BRIGITTE"S CHANGES* Added the placement of the line.
+	*/
+	Middle.x = 395;
+	Middle.y = 5;
+	Middle.w = 10;
+	Middle.h = 590;
 }
 
 /*
@@ -107,6 +118,12 @@ void DrawScreen()
 	//
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &Ball);
+
+	/*
+	*BRIGITTE'S CHANGES* Drawing the line in the middle of the screen.
+	*/
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderFillRect(renderer, &Middle);
 
 
 	//
