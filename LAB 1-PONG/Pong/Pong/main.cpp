@@ -25,6 +25,8 @@ SDL_Event event;
 
 // Mouse coordinates;
 int mouse_x, mouse_y;
+int speed_x, speed_y;
+int direction[2] = { -1, 1 };
 
 //
 bool running = true;
@@ -43,6 +45,9 @@ Purpose of the LoadGamer function:
 */
 void LoadGame()
 {
+	speed_x = -1;
+	speed_y = -1;
+
 	//
 	SDL_Window *window;
 
@@ -125,9 +130,25 @@ Purpose of Update function:
 void Update()
 {
 	PlayerPaddle.y = mouse_y;
-	Ball.x += 1;
-	Ball.y += 1;
+	Ball.x += speed_x;
+	Ball.y += speed_y;
 	SDL_Delay(10);
+
+	// Ball goes out on sides, left and right, then it will be reset to the centre of the screen.
+	if (Ball.x < 0 || Ball.x > WINDOW_WIDTH)
+	{
+		Ball.x = WINDOW_WIDTH / 2;
+		Ball.y = WINDOW_HEIGHT / 2;
+		// This expression produces random numbers -1, -2, 1 and 2.
+		speed_x = (rand() % 2 + 1) * direction[rand() % 2];
+		speed_y = (rand() % 2 + 1) * direction[rand() % 2];
+	}
+	if (Ball.y < 0 || Ball.y > (WINDOW_HEIGHT - Ball.h))
+	{
+		speed_y =  -speed_y;
+	}
+
+	AIPaddle.y = Ball.y - AIPaddle.h / 2 + Ball.h / 2;
 }
 
 /*
