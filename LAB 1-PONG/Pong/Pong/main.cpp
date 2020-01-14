@@ -9,6 +9,7 @@ Date: January 13th, 2020.
 
 //
 #include "SDL.h"
+#include <cstdlib>
 
 //
 #define WINDOW_WIDTH 800
@@ -16,6 +17,14 @@ Date: January 13th, 2020.
 
 //
 SDL_Renderer *renderer;
+
+/*
+*BRIGITTE'S CHANGES* New global variable added.
+*/
+SDL_Event event;
+
+// Mouse coordinates;
+int mouse_x, mouse_y;
 
 //
 bool running = true;
@@ -83,9 +92,30 @@ void LoadGame()
 /*
 Purpose of the Input function:
 */
+// Get user input.
 void Input()
 {
+	// Queing events.
+	while (SDL_PollEvent(&event))
+	{
+		// Track mouse movement.
+		if (event.type == SDL_MOUSEMOTION)
+			SDL_GetMouseState(&mouse_x, &mouse_y);
 
+		// Clicking 'x' or pressing 'F4'.
+		if (event.type == SDL_QUIT)
+			running = false;
+
+		// Pressing a key.
+		if (event.type == SDL_KEYDOWN)
+			switch (event.key.keysym.sym)
+			{
+				// Pressing 'ESC' exits from the game.
+			case SDLK_ESCAPE:
+				running = false;
+				break;
+			}
+	}
 }
 
 
@@ -94,7 +124,10 @@ Purpose of Update function:
 */
 void Update()
 {
-
+	PlayerPaddle.y = mouse_y;
+	Ball.x += 1;
+	Ball.y += 1;
+	SDL_Delay(10);
 }
 
 /*
