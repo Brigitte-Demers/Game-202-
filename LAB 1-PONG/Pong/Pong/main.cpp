@@ -7,8 +7,9 @@ Date: January 13th, 2020.
 */
 
 
-//
+// Includes SDL libraries.
 #include "SDL.h"
+// Includes the random number generating library.
 #include <cstdlib>
 
 //
@@ -26,9 +27,10 @@ SDL_Event event;
 // Mouse coordinates;
 int mouse_x, mouse_y;
 int speed_x, speed_y;
+// Balls speed.
 int direction[2] = { -1, 1 };
 
-//
+// 
 bool running = true;
 
 //
@@ -193,11 +195,29 @@ void Update()
 		speed_y =  -speed_y;
 	}
 
+	// AIPaddle y position.
 	AIPaddle.y = Ball.y - AIPaddle.h / 2 + Ball.h / 2;
 
 	if (check_collision(Ball, AIPaddle) || check_collision(Ball, PlayerPaddle))
 	{
 		speed_x = -speed_x;
+
+		if (speed_x > 0)
+		{
+			speed_x += 1;
+		}
+		else
+		{
+			speed_x -= 1;
+		}
+		if (speed_y > 0)
+		{
+			speed_y += 1;
+		}
+		else
+		{
+			speed_y -= 1;
+		}
 	}
 }
 
